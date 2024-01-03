@@ -2,12 +2,12 @@
     <Style src="project://database/Assets/GUI/style.uss?fileID=7433441132597879392&amp;guid=f1c1a031b2089f441a688b2fca0e227e&amp;type=3#style" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse;">
         <ui:VisualElement name="Container" style="flex-grow: 0; flex-basis: auto; justify-content: space-around; bottom: auto; align-self: auto; padding-right: 8%; padding-left: 8%; background-color: rgba(13, 26, 48, 0.78); border-top-width: 2px; border-top-color: rgb(11, 19, 31); flex-direction: row; align-items: center; padding-top: 15px; padding-bottom: 15px;">
-            <ui:Slider label="Articulation 1" value="50" high-value="100" name="Slider_joint0" focusable="false" class="slider" />
-            <ui:Slider label="Articulation 2" value="50" high-value="100" name="Slider_joint1" focusable="false" class="slider" />
-            <ui:Slider label="Articulation 3" value="50" high-value="100" name="Slider_joint2" focusable="false" class="slider" />
-            <ui:Slider label="Articulation 4" value="50" high-value="100" name="Slider_joint3" focusable="false" class="slider" />
-            <ui:Slider label="Articulation 5" value="50" high-value="100" name="Slider_joint4" focusable="false" class="slider" />
-            <ui:Slider label="Articulation 6" value="50" high-value="100" name="Slider_joint5" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 1" value="55" high-value="100" name="Slider_joint0" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 2" value="45" high-value="100" name="Slider_joint1" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 3" value="40" high-value="100" name="Slider_joint2" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 4" value="80" high-value="100" name="Slider_joint3" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 5" value="75" high-value="100" name="Slider_joint4" focusable="false" class="slider" />
+            <ui:Slider label="Articulation 6" value="70" high-value="100" name="Slider_joint5" focusable="false" class="slider" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
