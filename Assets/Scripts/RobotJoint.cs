@@ -54,7 +54,7 @@ public class RobotJoint : MonoBehaviour
         _localTransitionMatrix = newMatrix;
 
         _globalTransitionMatrix = parent is not null
-            ? _localTransitionMatrix * parent._globalTransitionMatrix
+            ? parent._globalTransitionMatrix * _localTransitionMatrix
             : _localTransitionMatrix;
     }
     

@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
         {
             var index = i;
             Slider slider = root.Q<Slider>("Slider_joint" + index);
+
+            if (slider == null) continue;
+            PrintSliderPosition(slider.value, index);
             slider.RegisterValueChangedCallback(v => PrintSliderPosition(v.newValue, index));
         }
     }
