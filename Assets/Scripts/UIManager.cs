@@ -28,4 +28,42 @@ public class UIManager : MonoBehaviour
         Debug.Log("Joint " + jointId + " position: " + jointNewValue);
         joints[jointId].SetQ(jointNewValue);
     }
+
+    public InverseKinematics inverseKinematics;
+    public AutoSliderAnimator[] autoSliderAnimators;
+
+    public void EnableIKMode()
+    {
+        inverseKinematics.enabled = true;
+        foreach (var animator in autoSliderAnimators)
+        {
+            animator.active = false; 
+        }
+    }
+
+    public void EnableManualControlMode()
+    {
+        inverseKinematics.enabled = false;
+        foreach (var animator in autoSliderAnimators)
+        {
+            animator.active = true;  
+        }
+    }
+
+    void Start()
+    {
+        if (inverseKinematics == null)
+        {
+            Debug.LogError("InverseKinematics script not assigned in UIManager.");
+        }
+
+        if (autoSliderAnimators == null || autoSliderAnimators.Length == 0)
+        {
+            Debug.LogError("AutoSliderAnimators not assigned in UIManager.");
+        }
+
+        EnableIKMode();  
+    }
+
+
 }

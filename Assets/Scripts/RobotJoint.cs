@@ -22,6 +22,11 @@ public class RobotJoint : MonoBehaviour
         _q = value;
         RefreshTransform();
     }
+    public float GetQ()
+    {
+        return _q;
+    }
+
     [SerializeField] private float minValue;
     public float GetMinValue() { return minValue; }
     [SerializeField] private float maxValue;
