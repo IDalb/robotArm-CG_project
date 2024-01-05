@@ -50,5 +50,76 @@ Label {
 
 .slider:active #unity-dragger {
     scale: 1.5 1.5;
-    background-color: purple;
+}
+
+/* Drawings panel */
+
+.unity-button {
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+
+    color: rgb(243, 157, 91);
+    -unity-font-style: bold;
+    font-size: 15px;
+
+    border-color: rgb(243, 157, 91);
+    border-width: 2px;
+    border-radius: 6px;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-property: scale, background-color, color, border-color;
+}
+
+.unity-button:hover {
+    scale: 1.05 1.05;
+
+    background-color: rgb(243, 157, 91);
+    color: rgb(30, 30, 30);
+}
+
+.unity-button:active {
+    background-color: rgb(197, 126, 72);
+    border-color: rgb(197, 126, 72);
+}
+
+.label {
+    margin-bottom: 10px;
+    
+    color: rgb(235, 235, 235);
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+.unity-composite-field {
+    flex-direction: column;
+}
+
+.unity-composite-field Label {
+    color: rgb(235, 235, 235);
+    font-size: 15px;
+}
+
+.unity-composite-field > VisualElement {
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.unity-float-field { flex-grow: 1; }
+.unity-float-field__label { display: none; }
+.unity-float-field__input {
+    margin: 0;
+    padding: 5px;
+
+    background-color: rgba(11, 19, 31, 0.5);
+    
+    border-color: rgb(11, 19, 31);
+    border-width: 2px;
+    border-radius: 5px;
+}
+.unity-float-field__input > TextElement {
+    color: rgb(235, 235, 235);
+    -unity-font-style: bold;
 }
