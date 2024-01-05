@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.16911969, g: 0.18477169, b: 0.19183582, a: 1}
+  m_IndirectSpecularColor: {r: 0.16911983, g: 0.18477184, b: 0.19183597, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5487,6 +5487,11 @@ MonoBehaviour:
   - {fileID: 1327711036}
   - {fileID: 548262089}
   - {fileID: 1872919590}
+  inverseKinematics: {fileID: 2057399593}
+  autoSliderAnimators:
+  - {fileID: 526468641}
+  - {fileID: 526468642}
+  - {fileID: 526468643}
 --- !u!114 &526468641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5921,7 +5926,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12278779, y: -0.6963643, z: 0.12278779, w: 0.6963643}
-  m_LocalPosition: {x: 5, y: 3, z: 2.5}
+  m_LocalPosition: {x: 11.95, y: 6.64, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6468,6 +6473,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1601383254250171976, guid: 28c80c459abcf874ca7846baf013660e, type: 3}
   m_PrefabInstance: {fileID: 1379153769}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2057399592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057399594}
+  - component: {fileID: 2057399593}
+  m_Layer: 0
+  m_Name: RobotArmController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2057399593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057399592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30564f708fb8daf46ab03bf56173daee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joints:
+  - {fileID: 1779729347}
+  - {fileID: 198045305}
+  - {fileID: 1410068397}
+  - {fileID: 1327711036}
+  - {fileID: 548262089}
+  - {fileID: 1872919590}
+  targetPosition: {x: 0, y: 0, z: 0}
+  positionAccuracy: 0.05
+  maxIterations: 15
+  startPoint: {x: 0, y: 1, z: 0}
+  endPoint: {x: 0, y: 0, z: 5}
+  drawingSpeed: 1
+--- !u!4 &2057399594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057399592}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.3600004, y: 0.85999966, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2094817960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6543,3 +6605,4 @@ SceneRoots:
   - {fileID: 526468639}
   - {fileID: 1698858350}
   - {fileID: 733233956}
+  - {fileID: 2057399594}

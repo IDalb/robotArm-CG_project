@@ -52,16 +52,6 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        if (inverseKinematics == null)
-        {
-            Debug.LogError("InverseKinematics script not assigned in UIManager.");
-        }
-
-        if (autoSliderAnimators == null || autoSliderAnimators.Length == 0)
-        {
-            Debug.LogError("AutoSliderAnimators not assigned in UIManager.");
-        }
-
         EnableIKMode();  
     }
 
