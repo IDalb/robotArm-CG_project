@@ -16,46 +16,28 @@ public class InverseKinematics : MonoBehaviour
     public float drawingSpeed = 1.0f; 
     private bool targetProcessed = false;
 
-
-    void Update()
-    {
-        //StartCoroutine(DrawLine());
-        //SolveInverseKinematics(targetPosition);
-    }
-
-    void Start()
-    {
-        StartCoroutine(DrawLine());
-    }
-
-
     void SolveInverseKinematics(Vector3 target)
     {   
-        if(!targetProcessed){
-            for (int iter = 0; iter < maxIterations; iter++)
+        if(targetProcessed) return;
+
+        for (int iter = 0; iter < maxIterations; iter++)
+        {
+            for (int j = joints.Length - 1; j >= 0; j--)
             {
-                for (int j = joints.Length - 1; j >= 0; j--)
+                Debug.Log($"Processing joint {j}: {joints[j].gameObject.name}");
+                switch (joints[j].GetJointType())
                 {
-                    Debug.Log($"Processing joint {j}: {joints[j].gameObject.name}");
-                    if (joints[j].GetJointType() == RobotJoint.JointType.Rotoid)
-                    {
-                        RotateTowardsTarget(joints[j], target);
-                    }
-                    else if (joints[j].GetJointType() == RobotJoint.JointType.Prismatic)
-                    {
-                        TranslateTowardsTarget(joints[j], target);
-                    }
-
-                }
-
-                // Check if the target position is reached within a given tolerance
-                if (IsTargetReached(target))
-                {
-                    targetProcessed = true; 
-                    break;
+                    case RobotJoint.JointType.Rotoid: RotateTowardsTarget(joints[j], target); break;
+                    case RobotJoint.JointType.Prismatic: TranslateTowardsTarget(joints[j], target); break;
                 }
             }
 
+            // Check if the target position is reached within a given tolerance
+            if (IsTargetReached(target))
+            {
+                targetProcessed = true; 
+                break;
+            }
         }
     }
 
@@ -103,20 +85,21 @@ public class InverseKinematics : MonoBehaviour
 
     bool IsTargetReached(Vector3 target)
     {
-        Vector3 endEffectorPos = joints[joints.Length - 1].transform.position;
+        Vector3 endEffectorPos = GetEndEffectorPosition();
         float distanceToTarget = (target - endEffectorPos).magnitude;
         Debug.Log($"Distance to Target: {distanceToTarget}");
         return distanceToTarget < positionAccuracy;
     }
 
-    IEnumerator DrawLine()
+    public IEnumerator MoveTo(Vector3 target, float duration = 2f)
     {
+        Vector3 startPosition = targetPosition;
         float step = 0.0f;
 
         while (step < 1.0f)
         {
-            step += Time.deltaTime * drawingSpeed;
-            SetTargetPosition(Vector3.Lerp(startPoint, endPoint, step));
+            step += Time.deltaTime / duration;
+            SetTargetPosition(Vector3.Lerp(startPosition, target, step));
             SolveInverseKinematics(targetPosition);
             yield return null;
         }
@@ -124,11 +107,10 @@ public class InverseKinematics : MonoBehaviour
 
     public void SetTargetPosition(Vector3 newTarget)
     {
-        if (targetPosition != newTarget)
-        {
-            targetPosition = newTarget;
-            targetProcessed = false;
-        }
+        if (targetPosition == newTarget) return;
+        
+        targetPosition = newTarget;
+        targetProcessed = false;
     }
 
 }

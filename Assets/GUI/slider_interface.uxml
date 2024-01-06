@@ -21,7 +21,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="Ellipse_UI" style="flex-grow: 1; margin-top: 15px;">
                     <ui:Label tabindex="-1" text="Draw an ellipse" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Ellipse_Label" class="label" />
-                    <ui:Vector2Field label="Half Axes" name="Ellipse_Half-Axes" />
+                    <ui:Vector2Field label="Semi Axes" name="Ellipse_SemiAxes" />
                     <ui:Vector3Field label="Center position" name="Ellipse_CenterPosition" />
                     <ui:Vector3Field label="Rotation" name="Ellipse_Rotation" />
                     <ui:Button text="Draw" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Ellipse_DrawBtn" tabindex="0" focusable="false" enable-rich-text="true" />
@@ -30,6 +30,7 @@
                     <ui:Label tabindex="-1" text="Write the word &quot;ENSISA&quot;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ENSISA_Label" class="label" />
                     <ui:Button text="Write" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Line_DrawBtn" tabindex="0" focusable="false" enable-rich-text="true" />
                 </ui:VisualElement>
+                <ui:Toggle label="Line Persistence" name="LinePersistence" style="margin-top: 15px; margin-right: 4px; margin-bottom: 0; margin-left: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

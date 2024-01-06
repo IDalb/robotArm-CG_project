@@ -123,3 +123,21 @@ Label {
     color: rgb(235, 235, 235);
     -unity-font-style: bold;
 }
+
+
+.unity-toggle { align-items: center; }
+
+.unity-toggle Label { color: rgb(235, 235, 235); font-size: 15px; }
+.unity-toggle > VisualElement { justify-content: flex-end; }
+.unity-toggle__checkmark {
+    background-color: transparent;
+
+    -unity-background-image-tint-color: white;
+
+    border-color: rgb(243, 157, 91);
+    border-width: 2px;
+    border-radius: 6px;
+}
+Toggle:checked .unity-toggle__checkmark {
+    background-image: url('check.png');
+}

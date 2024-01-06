@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.16911983, g: 0.18477184, b: 0.19183597, a: 1}
+  m_IndirectSpecularColor: {r: 0.16911969, g: 0.18477169, b: 0.19183582, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5488,6 +5488,7 @@ MonoBehaviour:
   - {fileID: 548262089}
   - {fileID: 1872919590}
   inverseKinematics: {fileID: 2057399593}
+  drawingManager: {fileID: 2057399596}
   autoSliderAnimators:
   - {fileID: 526468641}
   - {fileID: 526468642}
@@ -6270,7 +6271,7 @@ MonoBehaviour:
   baseSize: 0
   minValue: 0
   maxValue: 0
-  d: 0.5
+  d: 0
   alpha: 0
   r: 0
   theta: 0
@@ -6483,6 +6484,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2057399594}
   - component: {fileID: 2057399593}
+  - component: {fileID: 2057399595}
+  - component: {fileID: 2057399596}
   m_Layer: 0
   m_Name: RobotArmController
   m_TagString: Untagged
@@ -6530,6 +6533,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2057399595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057399592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a004d4052ec776945ac1e6d782fbed4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingTrail: {fileID: 108442515}
+  drawSourceLight: {fileID: 150844203}
+  drawSourceParticles: {fileID: 150844205}
+--- !u!114 &2057399596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057399592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75f3f28c59869547b5664f9f17b6145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ikManager: {fileID: 2057399593}
+  trailManager: {fileID: 2057399595}
 --- !u!1001 &2094817960
 PrefabInstance:
   m_ObjectHideFlags: 0
