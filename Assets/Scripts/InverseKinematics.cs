@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour
@@ -8,13 +9,15 @@ public class InverseKinematics : MonoBehaviour
 
     public Vector3 targetPosition;
 
-    public float positionAccuracy = 0.05f;
+    public float positionAccuracy = 0.01f;
 
-    public int maxIterations = 15;
+    public int maxIterations = 50;
     public Vector3 startPoint;
     public Vector3 endPoint;
-    public float drawingSpeed = 1.0f; 
+    public float duration = 1.0f;
     private bool targetProcessed = false;
+    public float letterSpacing = 2.0f; 
+    private Vector3 currentEndPosition = Vector3.zero; 
 
     void SolveInverseKinematics(Vector3 target)
     {   
@@ -105,13 +108,161 @@ public class InverseKinematics : MonoBehaviour
         }
     }
 
+
     public void SetTargetPosition(Vector3 newTarget)
     {
-        if (targetPosition == newTarget) return;
-        
-        targetPosition = newTarget;
-        targetProcessed = false;
+        if (targetPosition != newTarget)
+        {
+            targetPosition = newTarget;
+            targetProcessed = false;
+        }
     }
+    public IEnumerator DrawLetterE()
+    {
+        float radius = 1.0f;
+        Vector3 center = new Vector3(0, 0, 0);
+        List<Vector3> points = new List<Vector3>();
+
+        Vector3 leftmostPoint = new Vector3(center.x - radius, center.y, center.z);
+        points.Add(leftmostPoint); 
+        points.Add(center);   
+
+        int totalPoints = 20;
+
+        for (int i = 0; i <= totalPoints; i++)
+        {
+            float angle = (Mathf.PI * 1.5f) * i / totalPoints;
+            float x = center.x + radius * Mathf.Cos(angle);
+            float y = center.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, center.z));
+        }
+
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            startPoint = points[i];
+            endPoint = points[i + 1];
+            yield return StartCoroutine(MoveTo(endPoint));
+        }
+
+        currentEndPosition = points[points.Count - 1];
+    }
+
+    public IEnumerator DrawLetterN()
+    {
+        float height = 2.0f;
+        float width = 1.0f; 
+        Vector3 start = currentEndPosition;
+
+        List<Vector3> points = new List<Vector3>
+        {
+            start,
+            start + Vector3.up * height,
+            start + Vector3.up * height + Vector3.right * width,
+            start + Vector3.right * width
+        };
+
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            startPoint = points[i];
+            endPoint = points[i + 1];
+            yield return StartCoroutine(MoveTo(endPoint));
+        }
+
+        currentEndPosition = points[points.Count - 1];
+    }// TODO: Top of n must be a half circle
+
+    public IEnumerator DrawLetterS()
+    {
+        float radius = 0.5f; 
+        Vector3 start = currentEndPosition;
+        Vector3 centerTop = start + new Vector3(0, 1.5f, 0); 
+        Vector3 centerBottom = start + new Vector3(0, 0.5f, 0);
+
+        List<Vector3> points = new List<Vector3>();
+
+        for (int i = 0; i <= 10; i++)
+        {
+            float angle = Mathf.PI * i / 10;
+            float x = centerTop.x + radius * Mathf.Cos(angle);
+            float y = centerTop.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
+        }
+
+        for (int i = 0; i <= 10; i++)
+        {
+            float angle = Mathf.PI + (Mathf.PI / 2) * (i / 10.0f);
+            float x = centerBottom.x - radius * Mathf.Cos(angle);
+            float y = centerBottom.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
+        }
+
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            startPoint = points[i];
+            endPoint = points[i + 1];
+            yield return StartCoroutine(MoveTo(endPoint));
+        }
+
+        currentEndPosition = points[points.Count - 1];
+    }
+
+    public IEnumerator DrawLetterI()
+    {
+        float height = 2.0f; 
+        Vector3 start = currentEndPosition; 
+
+        List<Vector3> points = new List<Vector3>
+        {
+            start,
+            start + Vector3.up * height
+        };
+
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            startPoint = points[i];
+            endPoint = points[i + 1];
+            yield return StartCoroutine(MoveTo(endPoint));
+        }
+
+        currentEndPosition = points[points.Count - 1];
+    }
+    /*
+    public IEnumerator DrawLetterA()
+    {
+        Vector3 start = currentEndPosition;
+
+        currentEndPosition = points[points.Count - 1];
+    }//TODO: a minuscule = half circle + straight horizontal line + full circle
+    */
+
+    public void Space()
+    {
+        currentEndPosition.x += letterSpacing;
+    }
+
+   
+    IEnumerator DrawWordENSISA()
+    {
+        yield return StartCoroutine(DrawLetterE());
+        Space();
+        yield return StartCoroutine(DrawLetterN());
+        Space();
+        yield return StartCoroutine(DrawLetterS());
+        Space();
+        yield return StartCoroutine(DrawLetterI());
+        Space();
+        yield return StartCoroutine(DrawLetterS()); // TODO: This one must be the other way
+        Space();
+        //yield return StartCoroutine(DrawLetterA());
+
+    }
+
+    public void StartDrawing()
+    {
+        StartCoroutine(DrawWordENSISA());
+    }
+
 
 }
 
+// TODO: Fix letters drawing
