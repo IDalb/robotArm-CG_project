@@ -6805,6 +6805,8 @@ MonoBehaviour:
   startPoint: {x: 0, y: 0, z: 0}
   endPoint: {x: 0, y: 0, z: 0}
   duration: 1
+  letterSpacing: 2
+  trailManager: {fileID: 2057399595}
 --- !u!4 &2057399594
 Transform:
   m_ObjectHideFlags: 0

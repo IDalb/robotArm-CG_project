@@ -19,6 +19,9 @@ public class InverseKinematics : MonoBehaviour
     public float letterSpacing = 2.0f; 
     private Vector3 currentEndPosition = Vector3.zero; 
 
+    [Space]
+    public TrailManager trailManager;
+
     void SolveInverseKinematics(Vector3 target)
     {   
         if(targetProcessed) return;
@@ -141,8 +144,11 @@ public class InverseKinematics : MonoBehaviour
         {
             startPoint = points[i];
             endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint));
+            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
+            if (i == 0) trailManager.SetDrawState(true);
         }
+
+        trailManager.SetDrawState(false);
 
         currentEndPosition = points[points.Count - 1];
     }
@@ -165,8 +171,11 @@ public class InverseKinematics : MonoBehaviour
         {
             startPoint = points[i];
             endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint));
+            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
+            if (i == 0) trailManager.SetDrawState(true);
         }
+
+        trailManager.SetDrawState(false);
 
         currentEndPosition = points[points.Count - 1];
     }// TODO: Top of n must be a half circle
@@ -200,8 +209,11 @@ public class InverseKinematics : MonoBehaviour
         {
             startPoint = points[i];
             endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint));
+            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
+            if (i == 0) trailManager.SetDrawState(true);
         }
+
+        trailManager.SetDrawState(false);
 
         currentEndPosition = points[points.Count - 1];
     }
@@ -221,8 +233,11 @@ public class InverseKinematics : MonoBehaviour
         {
             startPoint = points[i];
             endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint));
+            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
+            if (i == 0) trailManager.SetDrawState(true);
         }
+
+        trailManager.SetDrawState(false);
 
         currentEndPosition = points[points.Count - 1];
     }

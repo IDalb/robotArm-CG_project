@@ -25,7 +25,9 @@ public class DrawingScene : MonoBehaviour
         yield return new WaitForSeconds(spotlightSound.length);
 
         // TODO:Must be looped while drawing
-        soundEffect.PlayOneShot(drawingSound);
+        soundEffect.loop = true;
+        soundEffect.clip = drawingSound;
+        soundEffect.Play();
         inverseKinematics.StartDrawing();
     }
 

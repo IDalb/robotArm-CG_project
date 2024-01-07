@@ -13,7 +13,7 @@ public class TrailManager : MonoBehaviour
         if (drawingTrail == null) enabled = false;
         originalTrailLifetime = FindObjectOfType<TrailRenderer>().time;
 
-        SetDrawState(false);
+        SetDrawState(true);
     }
 
     public void SetDrawState(bool state) {
