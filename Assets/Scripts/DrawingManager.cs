@@ -7,6 +7,8 @@ public class DrawingManager : MonoBehaviour
     public InverseKinematics ikManager;
     public TrailManager trailManager;
 
+    // ===== Draw a line ===== //
+
     public void DrawLine(Vector3 startPosition, Vector3 endPosition, float duration = 2f) {
         StartCoroutine(DrawLineCoroutine(startPosition, endPosition, duration));
     }
@@ -18,6 +20,8 @@ public class DrawingManager : MonoBehaviour
         yield return ikManager.MoveTo(endPosition, duration);
         trailManager.SetDrawState(false);
     }
+
+    // ===== Draw an ellipse ===== //
 
     public void DrawEllipse(Vector2 semiAxes, Vector3 centerPosition, Vector3 rotation) {
         StartCoroutine(DrawEllipseCoroutine(semiAxes, centerPosition, rotation));
@@ -42,5 +46,10 @@ public class DrawingManager : MonoBehaviour
 
             if (angle == 360) trailManager.SetDrawState(false);
         }
+    }
+
+    // ===== Write "ENSISA" ===== //
+    public void DrawEnsisa() {
+        StartCoroutine(FindObjectOfType<InverseKinematics>().DrawWordENSISA());
     }
 }

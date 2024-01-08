@@ -40,6 +40,10 @@ public class UIManager : MonoBehaviour
         Toggle linePersistenceToggle = root.Q<Toggle>("LinePersistence");
         drawingManager.trailManager.SetLinePersistence(linePersistenceToggle.value);
         linePersistenceToggle.RegisterValueChangedCallback(v => drawingManager.trailManager.SetLinePersistence(v.newValue));
+
+        // Initialize the "ENSISA" Writing GUI
+        Button ensisaButton = root.Q<Button>("Ensisa_DrawBtn");
+        ensisaButton.RegisterCallback<ClickEvent>(v => drawingManager.DrawEnsisa());
     }
 
     private void UpdateValueFromSliderPosition (float sliderPosition, int jointId) {

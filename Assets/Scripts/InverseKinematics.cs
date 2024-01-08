@@ -256,7 +256,7 @@ public class InverseKinematics : MonoBehaviour
     }
 
    
-    IEnumerator DrawWordENSISA()
+    public IEnumerator DrawWordENSISA()
     {
         yield return StartCoroutine(DrawLetterE());
         Space();
@@ -271,13 +271,6 @@ public class InverseKinematics : MonoBehaviour
         //yield return StartCoroutine(DrawLetterA());
 
     }
-
-    public void StartDrawing()
-    {
-        StartCoroutine(DrawWordENSISA());
-    }
-
-
 }
 
 // TODO: Fix letters drawing

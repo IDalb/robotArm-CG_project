@@ -28,7 +28,6 @@ public class DrawingScene : MonoBehaviour
         soundEffect.loop = true;
         soundEffect.clip = drawingSound;
         soundEffect.Play();
-        inverseKinematics.StartDrawing();
     }
 
     void PositionAndOrientCameraAndSpotlights()

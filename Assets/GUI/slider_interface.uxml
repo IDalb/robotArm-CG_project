@@ -28,7 +28,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="ENSISA_UI" style="flex-grow: 1; margin-top: 15px;">
                     <ui:Label tabindex="-1" text="Write the word &quot;ENSISA&quot;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ENSISA_Label" class="label" />
-                    <ui:Button text="Write" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Line_DrawBtn" tabindex="0" focusable="false" enable-rich-text="true" />
+                    <ui:Button text="Write" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Ensisa_DrawBtn" tabindex="0" focusable="false" enable-rich-text="true" />
                 </ui:VisualElement>
                 <ui:Toggle label="Line Persistence" name="LinePersistence" style="margin-top: 15px; margin-right: 4px; margin-bottom: 0; margin-left: 0;" />
             </ui:VisualElement>
