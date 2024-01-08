@@ -30,7 +30,6 @@ public class InverseKinematics : MonoBehaviour
         {
             for (int j = joints.Length - 1; j >= 0; j--)
             {
-                Debug.Log($"Processing joint {j}: {joints[j].gameObject.name}");
                 switch (joints[j].GetJointType())
                 {
                     case RobotJoint.JointType.Rotoid: RotateTowardsTarget(joints[j], target); break;
@@ -49,14 +48,12 @@ public class InverseKinematics : MonoBehaviour
 
     void RotateTowardsTarget(RobotJoint joint, Vector3 target)
     {
-        // Calculate the rotation needed for the joint
         Vector3 toEndEffector = GetEndEffectorPosition() - joint.transform.position;
         Vector3 toTarget = target - joint.transform.position;
 
         if (Vector3.Cross(toEndEffector, toTarget).magnitude > float.Epsilon)
         {
             Quaternion rotation = CalculateRotation(toEndEffector, toTarget);
-            Debug.Log($"{joint.gameObject.name} Rotate: {rotation.eulerAngles.z}");
             joint.SetQ(joint.GetQ() + rotation.eulerAngles.z); 
         }
     }
@@ -72,7 +69,6 @@ public class InverseKinematics : MonoBehaviour
         float targetProjection = Vector3.Dot(toTarget, jointAxis);
 
         float translation = targetProjection - endEffectorProjection;
-        Debug.Log($"{joint.gameObject.name} Translate: {translation}");
         joint.SetQ(joint.GetQ() + translation);
     }
 
@@ -111,7 +107,6 @@ public class InverseKinematics : MonoBehaviour
         }
     }
 
-
     public void SetTargetPosition(Vector3 newTarget)
     {
         if (targetPosition != newTarget)
@@ -120,15 +115,29 @@ public class InverseKinematics : MonoBehaviour
             targetProcessed = false;
         }
     }
+
+    private IEnumerator Draw(List<Vector3> points)
+    {
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            startPoint = points[i];
+            endPoint = points[i + 1];
+            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
+            if (i == 0) trailManager.SetDrawState(true);
+        }
+
+        trailManager.SetDrawState(false);
+    }
+
     public IEnumerator DrawLetterE()
     {
         float radius = 1.0f;
-        Vector3 center = new Vector3(0, 0, 0);
-        List<Vector3> points = new List<Vector3>();
-
-        Vector3 leftmostPoint = new Vector3(center.x - radius, center.y, center.z);
+        Vector3 center = new(-4, 0, 0);
+        List<Vector3> points = new();
+        Vector3 leftmostPoint = new(center.x - 2.1f, center.y, center.z);
+        Vector3 rightmostPoint = new(center.x-radius, center.y, center.z);
         points.Add(leftmostPoint); 
-        points.Add(center);   
+        points.Add(rightmostPoint);   
 
         int totalPoints = 20;
 
@@ -140,45 +149,40 @@ public class InverseKinematics : MonoBehaviour
             points.Add(new Vector3(x, y, center.z));
         }
 
-        for (int i = 0; i < points.Count - 1; i++)
-        {
-            startPoint = points[i];
-            endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
-            if (i == 0) trailManager.SetDrawState(true);
-        }
-
-        trailManager.SetDrawState(false);
-
-        currentEndPosition = points[points.Count - 1];
+        yield return StartCoroutine(Draw(points));
+        
+        currentEndPosition = points[^1];
     }
 
     public IEnumerator DrawLetterN()
     {
-        float height = 2.0f;
-        float width = 1.0f; 
+        List<Vector3> points = new();
+        float verticalLineHeight = 1.5f;
+        float radius = 0.5f;
         Vector3 start = currentEndPosition;
+        Vector3 topVerticalPoint = start + new Vector3(0, verticalLineHeight, 0);
+        Vector3 centerCircle = topVerticalPoint + new Vector3(radius, 0, 0); 
+        Vector3 bottomVerticalPoint = topVerticalPoint + new Vector3(2 * radius, -verticalLineHeight, 0); 
 
-        List<Vector3> points = new List<Vector3>
-        {
-            start,
-            start + Vector3.up * height,
-            start + Vector3.up * height + Vector3.right * width,
-            start + Vector3.right * width
-        };
+        points.Add(start);
+        points.Add(start);
+        points.Add(topVerticalPoint);
 
-        for (int i = 0; i < points.Count - 1; i++)
+        for (int i = 10; i >= 0; i--)
         {
-            startPoint = points[i];
-            endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
-            if (i == 0) trailManager.SetDrawState(true);
+            float angle = Mathf.PI * i / 10; 
+            float x = centerCircle.x + radius * Mathf.Cos(angle);
+            float y = centerCircle.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
         }
 
-        trailManager.SetDrawState(false);
+        points.Add(bottomVerticalPoint);
 
-        currentEndPosition = points[points.Count - 1];
-    }// TODO: Top of n must be a half circle
+        yield return StartCoroutine(Draw(points));
+
+        currentEndPosition = points[^1]; 
+    }
+
 
     public IEnumerator DrawLetterS()
     {
@@ -187,7 +191,7 @@ public class InverseKinematics : MonoBehaviour
         Vector3 centerTop = start + new Vector3(0, 1.5f, 0); 
         Vector3 centerBottom = start + new Vector3(0, 0.5f, 0);
 
-        List<Vector3> points = new List<Vector3>();
+        List<Vector3> points = new();
 
         for (int i = 0; i <= 10; i++)
         {
@@ -199,56 +203,126 @@ public class InverseKinematics : MonoBehaviour
 
         for (int i = 0; i <= 10; i++)
         {
-            float angle = Mathf.PI + (Mathf.PI / 2) * (i / 10.0f);
+            float angle = Mathf.PI + (Mathf.PI / 1.2f) * (i / 10.0f);
             float x = centerBottom.x - radius * Mathf.Cos(angle);
             float y = centerBottom.y + radius * Mathf.Sin(angle);
             points.Add(new Vector3(x, y, 0));
         }
 
-        for (int i = 0; i < points.Count - 1; i++)
+        yield return StartCoroutine(Draw(points));
+
+        currentEndPosition = new Vector3(points[points.Count - 1].x,-1,0);
+    }
+
+    public IEnumerator DrawSymmetricLetterS()
+    {
+        float radius = 0.5f;
+        Vector3 start = currentEndPosition;
+        Vector3 centerTop = start + new Vector3(0, 1.5f, 0);
+        Vector3 centerBottom = start + new Vector3(0, 0.5f, 0);
+
+        List<Vector3> points = new List<Vector3>();
+
+        for (int i = 0; i <= 10; i++)
         {
-            startPoint = points[i];
-            endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
-            if (i == 0) trailManager.SetDrawState(true);
+            float angle = Mathf.PI * i / 10;
+            float x = centerTop.x - radius * Mathf.Cos(angle);
+            float y = centerTop.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
         }
 
-        trailManager.SetDrawState(false);
+        for (int i = 0; i <= 10; i++)
+        {
+            float angle = Mathf.PI + (Mathf.PI / 1.2f) * (i / 10.0f); 
+            float x = centerBottom.x + radius * Mathf.Cos(angle); 
+            float y = centerBottom.y + radius * Mathf.Sin(angle); 
+            points.Add(new Vector3(x, y, 0));
+        }
 
-        currentEndPosition = points[points.Count - 1];
+        yield return StartCoroutine(Draw(points));
+
+        currentEndPosition = new Vector3(points[points.Count - 1].x-1,-1,0);
     }
+
 
     public IEnumerator DrawLetterI()
     {
-        float height = 2.0f; 
+        float height = 2; 
         Vector3 start = currentEndPosition; 
 
-        List<Vector3> points = new List<Vector3>
+
+        List<Vector3> points = new()
         {
             start,
+            start,
+            start + Vector3.up * height/4,
+            start + Vector3.up * height/3,
+            start + Vector3.up * height/2, 
             start + Vector3.up * height
         };
 
-        for (int i = 0; i < points.Count - 1; i++)
-        {
-            startPoint = points[i];
-            endPoint = points[i + 1];
-            yield return StartCoroutine(MoveTo(endPoint, 0.1f));
-            if (i == 0) trailManager.SetDrawState(true);
-        }
+        yield return StartCoroutine(Draw(points));
 
-        trailManager.SetDrawState(false);
-
-        currentEndPosition = points[points.Count - 1];
+        currentEndPosition = new Vector3(points[points.Count - 1].x,-1,0);
     }
-    /*
+    
     public IEnumerator DrawLetterA()
     {
+        List<Vector3> points = new();
         Vector3 start = currentEndPosition;
+        float verticalLineHeight = 1.5f;
+        float radius = 0.5f;
+        Vector3 topVerticalPoint = start + new Vector3(0, verticalLineHeight, 0);
+        Vector3 centerCircle = topVerticalPoint + new Vector3(radius, 0, 0); 
+        Vector3 bottomVerticalPoint = topVerticalPoint + new Vector3(2 * radius + 0.5f, -verticalLineHeight, 0);
 
-        currentEndPosition = points[points.Count - 1];
-    }//TODO: a minuscule = half circle + straight horizontal line + full circle
-    */
+        points.Add(topVerticalPoint);
+        for (int i = 10; i >= 0; i--)
+        {
+            float angle = Mathf.PI * i / 10; 
+            float x = centerCircle.x + radius * Mathf.Cos(angle);
+            float y = centerCircle.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
+        }
+
+        points.Add(bottomVerticalPoint);
+
+        Vector3 bellyCenter = new(bottomVerticalPoint.x-(radius+0.15f), start.y + radius, 0); 
+        for (int i = 0; i <= 20; i++) 
+        {
+            float angle = 2 * Mathf.PI * i / 20;
+            float x = bellyCenter.x + radius * Mathf.Cos(angle);
+            float y = bellyCenter.y + radius * Mathf.Sin(angle);
+            points.Add(new Vector3(x, y, 0));
+        }
+
+        yield return StartCoroutine(Draw(points));
+
+        currentEndPosition = points[^1];
+    }
+
+    public IEnumerator DrawCircleInN()
+    {
+        Vector3 nCenter = currentEndPosition + new Vector3(-8.85f, 0.4f, 0);
+        float radius = 0.15f; 
+        int numberOfPoints = 40; 
+
+        List<Vector3> circlePoints = new();
+        for (int i = 0; i < numberOfPoints; i++)
+        {   
+            float angle = (i * 360f / numberOfPoints) * Mathf.Deg2Rad; 
+            float x = nCenter.x + radius * Mathf.Cos(angle);
+            float y = nCenter.y + radius * Mathf.Sin(angle);
+            circlePoints.Add(new Vector3(x, y, 0));
+        }
+        circlePoints.Add(circlePoints[0]);
+        circlePoints.Add(circlePoints[1]);
+        
+        yield return StartCoroutine(Draw(circlePoints));
+        currentEndPosition = new(0,-2,0);
+        yield return StartCoroutine(MoveTo(currentEndPosition));
+    }
+
 
     public void Space()
     {
@@ -258,6 +332,7 @@ public class InverseKinematics : MonoBehaviour
    
     IEnumerator DrawWordENSISA()
     {
+        trailManager.SetDrawState(false);
         yield return StartCoroutine(DrawLetterE());
         Space();
         yield return StartCoroutine(DrawLetterN());
@@ -266,9 +341,10 @@ public class InverseKinematics : MonoBehaviour
         Space();
         yield return StartCoroutine(DrawLetterI());
         Space();
-        yield return StartCoroutine(DrawLetterS()); // TODO: This one must be the other way
+        yield return StartCoroutine(DrawSymmetricLetterS());
         Space();
-        //yield return StartCoroutine(DrawLetterA());
+        yield return StartCoroutine(DrawLetterA());
+        yield return StartCoroutine(DrawCircleInN());
 
     }
 
@@ -279,5 +355,3 @@ public class InverseKinematics : MonoBehaviour
 
 
 }
-
-// TODO: Fix letters drawing
