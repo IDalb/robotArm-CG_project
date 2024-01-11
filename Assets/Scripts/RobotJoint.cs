@@ -7,6 +7,8 @@ public class RobotJoint : MonoBehaviour
     public enum JointType { Rotoid, Prismatic }
     
     [SerializeField] private RobotJoint parent;
+    public RobotJoint GetParent() { return parent; }
+
     public List<RobotJoint> children;
 
     [Header("Parameters")]
